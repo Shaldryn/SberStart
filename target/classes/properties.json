@@ -1,0 +1,8 @@
+{
+  "port": 8002,
+  "webroot": "/tmp",
+  "jdbcDriverClassName": "org.h2.Driver",
+  "jdbcUrl": "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
+  "jdbcUser": "sa",
+  "jdbcPass": ""
+}

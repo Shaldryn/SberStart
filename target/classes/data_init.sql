@@ -1,0 +1,47 @@
+DROP TABLE IF EXISTS cards, customers, bills;
+
+CREATE TABLE customers (
+id IDENTITY NOT NULL PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+login VARCHAR(50) NOT NULL,
+password VARCHAR(6) NOT NULL
+);
+
+INSERT INTO customers(name, login, password)
+VALUES
+('Ivan', 'Shadow', '111222'),
+('Petr', 'Gloomy', '333444'),
+('Ilya', 'Keks', '555666'),
+('Vera', 'Smith', '777888');
+
+CREATE TABLE bills (
+id IDENTITY NOT NULL PRIMARY KEY,
+customer_id INT NOT NULL,
+bill_number DECIMAL NOT NULL AUTO_INCREMENT,
+balance DECIMAL(21, 2) NOT NULL DEFAULT 0,
+FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE
+);
+
+INSERT INTO bills(bill_number, customer_id, balance)
+VALUES
+(408178103520301010, (SELECT id FROM customers WHERE id = 1), 0),
+(408178103520301011, (SELECT id FROM customers WHERE id = 2), 100),
+(408178103520301012, (SELECT id FROM customers WHERE id = 2), 350),
+(408178103520301013, (SELECT id FROM customers WHERE id = 3), 1000),
+(408178103520301014, (SELECT id FROM customers WHERE id = 4), 6000);
+
+CREATE TABLE cards (
+id IDENTITY NOT NULL PRIMARY KEY,
+bill_id INT NOT NULL,
+card_number BIGINT UNIQUE,
+FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE CASCADE
+);
+
+INSERT INTO cards(card_number, bill_id)
+VALUES
+(4123456789012345, (SELECT id FROM bills WHERE id = 1)),
+(4123456789012346, (SELECT id FROM bills WHERE id = 2)),
+(4123456789012347, (SELECT id FROM bills WHERE id = 2)),
+(4123456789012348, (SELECT id FROM bills WHERE id = 3)),
+(4123456789012349, (SELECT id FROM bills WHERE id = 4)),
+(4123456789012340, (SELECT id FROM bills WHERE id = 5));
