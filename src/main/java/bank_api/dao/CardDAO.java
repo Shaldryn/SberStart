@@ -8,4 +8,8 @@ public interface CardDAO extends DAO<Card>{
 
     List<Card> getAllCardsByCustomerId(Long id);
 
+    Long saveCardByBillId(Long id);
+
+    Card getCardByNumber(Long number);
+
 }

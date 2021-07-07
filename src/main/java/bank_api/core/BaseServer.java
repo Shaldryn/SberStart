@@ -2,10 +2,8 @@ package bank_api.core;
 
 import bank_api.config.Configuration;
 import bank_api.config.ConfigurationManager;
-import bank_api.core.handlers.AddCardHandler;
-import bank_api.core.handlers.CheckBalanceHandler;
-import bank_api.core.handlers.DepositHandler;
-import bank_api.core.handlers.ShowCardsHandler;
+import bank_api.core.controller.CreateCardHandler;
+import bank_api.core.controller.ShowCardsHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -18,10 +16,10 @@ public class BaseServer {
         Configuration conf = ConfigurationManager.getInstance().getCurrentConfiguration();
 
         HttpServer server = HttpServer.create(new InetSocketAddress(conf.getPort()), 0);
-//        server.createContext("/addCard", new AddCardHandler());
-        server.createContext("/getCards", new ShowCardsHandler());
-//        server.createContext("/deposit", new DepositHandler());
-//        server.createContext("/checkBalance", new CheckBalanceHandler());
+        server.createContext("/CreateCard", new CreateCardHandler());
+        server.createContext("/ShowCards", new ShowCardsHandler());
+//        server.createContext("/Deposit", new DepositHandler());
+//        server.createContext("/CheckBalance", new CheckBalanceHandler());
         server.start();
     }
 

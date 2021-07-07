@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class JsonService {
 
@@ -36,8 +37,20 @@ public class JsonService {
         return generateJson(node, false);
     }
 
+    public static String stringify(List<Object> list) throws JsonProcessingException {
+        return generateJson(list, false);
+    }
+
     public static String stringifyPretty(JsonNode node) throws JsonProcessingException {
         return generateJson(node, true);
+    }
+
+    public static String stringifyPretty(List<Object> list) throws JsonProcessingException {
+        return generateJson(list, true);
+    }
+
+    public static String stringifyPretty(Object object) throws JsonProcessingException {
+        return generateJson(object, true);
     }
 
     private static String generateJson(Object o, boolean pretty) throws JsonProcessingException {

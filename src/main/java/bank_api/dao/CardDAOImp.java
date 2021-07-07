@@ -3,10 +3,7 @@ package bank_api.dao;
 import bank_api.entity.Card;
 import bank_api.util.ConnectionManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -83,6 +80,28 @@ public class CardDAOImp extends ConnectionManager implements CardDAO {
     }
 
     @Override
+    public Card getCardByNumber(Long number) {
+        String sqlQuery = "SELECT * FROM cards WHERE card_number = ?";
+
+        Card card = new Card();
+        try (Connection connection = getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sqlQuery)) {
+
+            prepareStatement.setLong(1, number);
+
+            ResultSet resultSet = prepareStatement.executeQuery();
+            while (resultSet.next()) {
+                card.setId(resultSet.getLong("id"));
+                card.setBillId(resultSet.getLong("bill_id"));
+                card.setCardNumber(number);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return card;
+    }
+
+    @Override
     public void save(Card card) {
         String sqlQuery = "INSERT INTO cards (bill_id, card_number) VALUES(?, ?)";
 
@@ -96,6 +115,26 @@ public class CardDAOImp extends ConnectionManager implements CardDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Long saveCardByBillId(Long id) {
+        String sqlQuery = "INSERT INTO cards (bill_id) VALUES(?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sqlQuery, new String[]{"card_number"})) {
+
+            prepareStatement.setLong(1, id);
+
+            prepareStatement.executeUpdate();
+            ResultSet rs = prepareStatement.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
