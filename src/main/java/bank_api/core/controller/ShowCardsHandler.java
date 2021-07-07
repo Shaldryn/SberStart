@@ -23,7 +23,7 @@ public class ShowCardsHandler implements HttpHandler {
         String method = exchange.getRequestMethod();
         String URI = exchange.getRequestURI().toString();
         String response;
-        int responseCode;
+        int responseCode = 200;
 
         if (method.equals("GET")) {
             CardService cardService = new CardService();
@@ -40,20 +40,15 @@ public class ShowCardsHandler implements HttpHandler {
                         filter(e -> e.getKey().equals("customerId")).
                         map(Map.Entry::getValue).
                         findFirst().get());
-                String data = cardService.getCardsByCustomerID(customerId);
+                String data = cardService.getCardsByCustomerId(customerId);
                 if (data == null) {
                     response = "No cards";
                 } else {
                     response = data;
                 }
 
-                switch (response) {
-                    case "No cards":
-                        responseCode = 204;
-                        break;
-                    default:
-                        responseCode = 200;
-                        break;
+                if (response.equals("No cards")) {
+                    responseCode = 204;
                 }
                 exchange.sendResponseHeaders(responseCode, response.length());
                 OutputStream os = exchange.getResponseBody();
@@ -62,6 +57,5 @@ public class ShowCardsHandler implements HttpHandler {
                 os.close();
             }
         }
-
     }
 }

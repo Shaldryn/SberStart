@@ -23,7 +23,7 @@ public class CardService {
         this.cardDAO = new CardDAOImp();
     }
 
-    public String getCardsByCustomerID(Long id) {
+    public String getCardsByCustomerId(Long id) {
         List<Card> cards = cardDAO.getAllCardsByCustomerId(id);
         if (cards.isEmpty()) {
             return null;
@@ -42,7 +42,7 @@ public class CardService {
         if (resultNewNumberCard == null) {
             return null;
         }
-        Card card = new Card();
+        Card card;
         card = getCardByCardNumber(resultNewNumberCard);
         String stringJson = "";
         try {

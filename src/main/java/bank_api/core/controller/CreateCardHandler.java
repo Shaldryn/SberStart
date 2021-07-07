@@ -19,11 +19,10 @@ public class CreateCardHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
 
         String method = exchange.getRequestMethod();
-        String URI = exchange.getRequestURI().toString();
         String response;
-        int responseCode;
+        int responseCode = 200;
 
-        if (exchange.getRequestMethod().equals("POST")) {
+        if (method.equals("POST")) {
             CardService cardService = new CardService();
             CardDTO cardDTO = new CardDTO();
             try {
@@ -40,13 +39,8 @@ public class CreateCardHandler implements HttpHandler {
                 response = data;
             }
 
-            switch (response) {
-                case "Invalid bill id":
-                    responseCode = 404;
-                    break;
-                default:
-                    responseCode = 200;
-                    break;
+            if (response.equals("Invalid bill id")) {
+                responseCode = 404;
             }
             exchange.sendResponseHeaders(responseCode, response.length());
             OutputStream os = exchange.getResponseBody();

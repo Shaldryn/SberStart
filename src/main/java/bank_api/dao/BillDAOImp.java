@@ -37,6 +37,29 @@ public class BillDAOImp extends ConnectionManager implements BillDAO {
     }
 
     @Override
+    public Optional<Bill> getByCardId(Long id) {
+        String sqlQuery = "SELECT bill.* FROM bills bill INNER JOIN cards card ON bill.id = card.bill_id WHERE card.id= ?";
+
+        Bill bill = new Bill();
+        try (Connection connection = getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sqlQuery)) {
+
+            prepareStatement.setLong(1, id);
+
+            ResultSet resultSet = prepareStatement.executeQuery();
+            while (resultSet.next()) {
+                bill.setId(resultSet.getLong("id"));
+                bill.setCustomerId(resultSet.getLong("customer_id"));
+                bill.setBillNumber(resultSet.getBigDecimal("bill_number"));
+                bill.setBalance(resultSet.getBigDecimal("balance"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.ofNullable(bill);
+    }
+
+    @Override
     public List<Bill> getAll() {
         String sqlQuery = "SELECT * FROM bills";
 
