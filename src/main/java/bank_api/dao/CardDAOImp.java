@@ -14,7 +14,7 @@ public class CardDAOImp extends ConnectionManager implements CardDAO {
     public List<Card> getAllCardsByCustomerId(Long id) {
         String sqlQuery = "SELECT card.id, card.bill_id, card.card_number\n" +
                 "FROM cards card\n" +
-                "LEFT OUTER JOIN bills bill ON card.bill_id = bill.id where bill.customer_id = ?";
+                "INNER JOIN bills bill ON card.bill_id = bill.id where bill.customer_id = ?";
 
         List<Card> cards = new ArrayList<>();
         try (Connection connection = getConnection();

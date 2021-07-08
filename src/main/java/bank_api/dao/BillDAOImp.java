@@ -40,14 +40,15 @@ public class BillDAOImp extends ConnectionManager implements BillDAO {
     public Optional<Bill> getByCardId(Long id) {
         String sqlQuery = "SELECT bill.* FROM bills bill INNER JOIN cards card ON bill.id = card.bill_id WHERE card.id= ?";
 
-        Bill bill = new Bill();
+        Bill bill = null;
         try (Connection connection = getConnection();
              PreparedStatement prepareStatement = connection.prepareStatement(sqlQuery)) {
 
             prepareStatement.setLong(1, id);
-
             ResultSet resultSet = prepareStatement.executeQuery();
+
             while (resultSet.next()) {
+                bill = new Bill();
                 bill.setId(resultSet.getLong("id"));
                 bill.setCustomerId(resultSet.getLong("customer_id"));
                 bill.setBillNumber(resultSet.getBigDecimal("bill_number"));

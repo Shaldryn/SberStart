@@ -17,7 +17,7 @@ import java.util.List;
 public class CardService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ShowCardsHandler.class);
-    private CardDAOImp cardDAO;
+    private final CardDAOImp cardDAO;
 
     public CardService() {
         this.cardDAO = new CardDAOImp();
@@ -28,7 +28,7 @@ public class CardService {
         if (cards.isEmpty()) {
             return null;
         }
-        String stringJson = "";
+        String stringJson = null;
         try {
             stringJson = JsonService.stringifyPretty(Collections.singletonList(cards));
         } catch (JsonProcessingException e) {
@@ -42,9 +42,8 @@ public class CardService {
         if (resultNewNumberCard == null) {
             return null;
         }
-        Card card;
-        card = getCardByCardNumber(resultNewNumberCard);
-        String stringJson = "";
+        Card card = getCardByCardNumber(resultNewNumberCard);
+        String stringJson = null;
         try {
             stringJson = JsonService.stringifyPretty(card);
         } catch (JsonProcessingException e) {

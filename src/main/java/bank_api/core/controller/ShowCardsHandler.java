@@ -9,7 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,19 +44,24 @@ public class ShowCardsHandler implements HttpHandler {
                 String data = cardService.getCardsByCustomerId(customerId);
                 if (data == null) {
                     response = "No cards";
+                    responseCode = 400;
                 } else {
                     response = data;
                 }
-
-                if (response.equals("No cards")) {
-                    responseCode = 204;
-                }
-                exchange.sendResponseHeaders(responseCode, response.length());
-                OutputStream os = exchange.getResponseBody();
-                os.write(response.getBytes());
-                os.flush();
-                os.close();
+                writeResponse(response, responseCode, exchange);
             }
+        } else {
+            exchange.sendResponseHeaders(405, -1);// 405 Method Not Allowed
+        }
+        exchange.close();
+    }
+
+    private void writeResponse(String response, int responseCode, HttpExchange exchange) {
+        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(exchange.getResponseBody())) {
+            outputStreamWriter.write(response);
+            exchange.sendResponseHeaders(responseCode, response.getBytes(StandardCharsets.UTF_8).length);
+        } catch (IOException e) {
+            LOGGER.error("Error write response body", e);
         }
     }
 }

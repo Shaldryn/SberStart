@@ -27,7 +27,6 @@ public class ConnectionManager {
         try {
             Class.forName(conf.getJdbcDriverClassName());
             connection = DriverManager.getConnection(conf.getJdbcUrl(), conf.getJdbcUser(), conf.getJdbcPass());
-            LOGGER.info("Connection OK");
         } catch (ClassNotFoundException | SQLException e) {
             LOGGER.error("Connection ERROR", e);
         }
@@ -51,6 +50,7 @@ public class ConnectionManager {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(stringBuilder.toString());
+            LOGGER.info("Create and initialize DB");
         } catch (SQLException e) {
             LOGGER.error("Error execute statement", e);
         }
@@ -58,19 +58,17 @@ public class ConnectionManager {
 
     public void openWebInterfaceDB() {
         Connection finalDbConnection = connection;
-        Runnable runServer = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Server.startWebServer(finalDbConnection);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        Runnable runServer = () -> {
+            try {
+                Server.startWebServer(finalDbConnection);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         };
 
         Thread threadServer = new Thread(runServer);
         threadServer.start();
+        LOGGER.info("Start web interface H2");
     }
 
     private Configuration getConfiguration() {

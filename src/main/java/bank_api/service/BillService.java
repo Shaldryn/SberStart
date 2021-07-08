@@ -8,23 +8,34 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
+
 public class BillService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ShowCardsHandler.class);
-    private BillDAOImp billDAO;
+    private final BillDAOImp billDAO;
 
     public BillService() {
         this.billDAO = new BillDAOImp();
     }
 
-    public String getBalanceByBillId(Long id) {
-        Bill bill;
-        if (billDAO.getById(id).isPresent()) {
-            bill = billDAO.getById(id).get();
+    public String getBalanceById(Long id, Long billId) {
+        Bill bill = null;
+        if (id == null) {
+            if (billDAO.getById(billId).isPresent()) {
+                bill = billDAO.getById(billId).get();
+            }
         } else {
+            if (billDAO.getByCardId(id).isPresent()) {
+                bill = billDAO.getByCardId(id).get();
+            }
+        }
+
+        if (bill == null) {
             return null;
         }
-        String stringJson = "";
+
+        String stringJson = null;
         try {
             stringJson = JsonService.stringifyPretty(bill);
         } catch (JsonProcessingException e) {
@@ -33,14 +44,25 @@ public class BillService {
         return stringJson;
     }
 
-    public String getBalanceByCardId(Long id) {
-        Bill bill;
-        if (billDAO.getByCardId(id).isPresent()) {
-            bill = billDAO.getByCardId(id).get();
+    public String depositById(Long id, Long billId, BigDecimal sum) {
+        Bill bill = null;
+        if (id == null) {
+            if (billDAO.getById(billId).isPresent()) {
+                bill = billDAO.getById(billId).get();
+            }
         } else {
+            if (billDAO.getByCardId(id).isPresent()) {
+                bill = billDAO.getByCardId(id).get();
+            }
+        }
+
+        if (bill == null) {
             return null;
         }
-        String stringJson = "";
+
+        bill.setBalance(bill.getBalance().add(sum));
+        billDAO.update(bill);
+        String stringJson = null;
         try {
             stringJson = JsonService.stringifyPretty(bill);
         } catch (JsonProcessingException e) {

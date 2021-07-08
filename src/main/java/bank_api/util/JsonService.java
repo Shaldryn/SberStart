@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public class JsonService {
 
@@ -33,20 +34,32 @@ public class JsonService {
         return myObjectMapper.readValue(is, clazz);
     }
 
+    public static <A> A parse(String content, Class<A> clazz) throws IOException {
+        return myObjectMapper.readValue(content, clazz);
+    }
+
     public static String stringify(JsonNode node) throws JsonProcessingException {
         return generateJson(node, false);
     }
 
-    public static String stringify(List<Object> list) throws JsonProcessingException {
+    public static <T> String stringify(List<T> list) throws JsonProcessingException {
         return generateJson(list, false);
+    }
+
+    public static <K, V> String stringify(Map<K, V> map) throws JsonProcessingException {
+        return generateJson(map, false);
     }
 
     public static String stringifyPretty(JsonNode node) throws JsonProcessingException {
         return generateJson(node, true);
     }
 
-    public static String stringifyPretty(List<Object> list) throws JsonProcessingException {
+    public static <T> String stringifyPretty(List<T> list) throws JsonProcessingException {
         return generateJson(list, true);
+    }
+
+    public static <K, V> String stringifyPretty(Map<K, V> map) throws JsonProcessingException {
+        return generateJson(map, true);
     }
 
     public static String stringifyPretty(Object object) throws JsonProcessingException {
