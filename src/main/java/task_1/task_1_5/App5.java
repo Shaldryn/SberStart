@@ -10,7 +10,9 @@ public class App5 {
     public static void main(String[] args) {
         List<Person> personList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-        do {
+        boolean isExit = false;
+
+        while (!isExit) {
             System.out.println("Menu:");
             System.out.println("1.Add");
             System.out.println("2.Show");
@@ -18,8 +20,10 @@ public class App5 {
 
             switch (scanner.nextLine()) {
                 case "1":
+                    addPerson(scanner, personList);
                     break;
                 case "2":
+                    showPersons(personList);
                     break;
                 case "3":
                     break;
@@ -27,6 +31,26 @@ public class App5 {
                     break;
             }
 
-        } while (scanner.nextLine().equals("3"));
+        }
+    }
+
+    public static void addPerson(Scanner scanner, List<Person> personList){
+        String first;
+        String last;
+
+        System.out.println("Input values person");
+        System.out.print("firstName: ");
+        first = scanner.nextLine();
+        System.out.print("lastName: ");
+        last = scanner.nextLine();
+
+        personList.add(new Person(first, last));
+    }
+
+    public static void showPersons(List<Person> personList) {
+        if (personList.isEmpty()) {
+            System.out.println("list is empty!");
+        }
+        personList.forEach(System.out::println);
     }
 }
