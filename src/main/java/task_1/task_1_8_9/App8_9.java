@@ -93,6 +93,13 @@ public class App8_9 {
 
         public static void main(String[] args) {
             List<Person> personList = new ArrayList<>();
+            //test data
+            personList.add(new Person("Ivan", "Pupkin"));
+            personList.add(new Person("Ilya", "Soloniev"));
+            personList.add(new Person("Georg", "Nikolaev"));
+            personList.add(new Person("Nikola", "Petrov"));
+            personList.add(new Person("Sergey", "Pupkin"));
+            //--
             Scanner scanner = new Scanner(System.in);
             List<MenuItem> items = initMenuItem(scanner);
             Menu menu = new Menu("Work with persons", true, items, scanner);
@@ -129,6 +136,7 @@ public class App8_9 {
                 public void exec(List<Person> data) throws Exception {
                     if (data.isEmpty()) {
                         System.out.println("list is empty!");
+                        return;
                     }
                     data.forEach(System.out::println);
                 }
@@ -136,6 +144,10 @@ public class App8_9 {
             items.add(new MenuItem("Show sorted unique", new Exec() {
                 @Override
                 public void exec(List<Person> data) throws Exception {
+                    if (data.isEmpty()) {
+                        System.out.println("list is empty!");
+                        return;
+                    }
                     data.stream()
                             .collect(Collectors.toCollection(
                                     () -> new TreeSet<Person>(Comparator.comparing(Person::getLastName))
@@ -149,6 +161,7 @@ public class App8_9 {
                         for (Person person : data) {
                             writer.append(person.toString() + "\r\n");
                         }
+                        System.out.println("list save to file!");
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -157,7 +170,7 @@ public class App8_9 {
             items.add(new MenuItem("Read from file", new Exec() {
                 @Override
                 public void exec(List<Person> data) throws Exception {
-                    try (BufferedReader br = new BufferedReader(new FileReader("persons.txt"))) {
+                    try (BufferedReader br = new BufferedReader(new FileReader("PersonsOOP.txt"))) {
                         String s;
                         while ((s = br.readLine()) != null) {
                             System.out.println(s);
@@ -171,6 +184,7 @@ public class App8_9 {
                 @Override
                 public void exec(List<Person> data) throws Exception {
                     data.clear();
+                    System.out.println("list is clear!");
                 }
             }));
 
