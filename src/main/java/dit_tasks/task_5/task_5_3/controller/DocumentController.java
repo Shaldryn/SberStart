@@ -1,12 +1,11 @@
 package dit_tasks.task_5.task_5_3.controller;
 
-import dit_tasks.task_5.task_5_3.controller.dto.BoxResponseDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import dit_tasks.task_5.task_5_3.controller.dto.DocumentRequestDTO;
 import dit_tasks.task_5.task_5_3.controller.dto.DocumentResponseDTO;
 import dit_tasks.task_5.task_5_3.service.DocumentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
