@@ -24,6 +24,10 @@ public class BoxService {
         return boxRepository.save(box).getId();
     }
 
+    public List<Box> getAll() {
+        return boxRepository.findAll();
+    }
+
     public Box getById(Long boxId) {
         return boxRepository.findById(boxId)
                 .orElseThrow(() -> new BoxNotFoundException("Unable to find box with id: " + boxId));

@@ -9,6 +9,7 @@ import dit_tasks.task_5.task_5_3.controller.dto.DocumentResponseDTO;
 import dit_tasks.task_5.task_5_3.entity.Document;
 import dit_tasks.task_5.task_5_3.service.BoxService;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,30 +22,29 @@ public class BoxController {
         this.boxService = boxService;
     }
 
+    @GetMapping("/boxes")
+    public List<BoxResponseDTO> getAllBoxes() {
+        return boxService.getAll().stream().map(BoxResponseDTO::new).collect(Collectors.toList());
+    }
+
     @GetMapping("/boxes/{boxId}")
-    public BoxResponseDTO getById(@PathVariable Long boxId) {
+    public BoxResponseDTO getBoxById(@PathVariable Long boxId) {
         return new BoxResponseDTO(boxService.getById(boxId));
     }
 
     @PostMapping("/boxes")
-    public Long create(@RequestBody BoxRequestDTO boxRequestDTO) {
+    public Long createBox(@RequestBody BoxRequestDTO boxRequestDTO) {
         return boxService.save(boxRequestDTO.getName(), boxRequestDTO.getBarcode(), boxRequestDTO.getDocuments()
                 .stream()
                 .map(DocumentRequestDTO -> new Document(DocumentRequestDTO.getName(), DocumentRequestDTO.getBarcode()))
                 .collect(Collectors.toList()));
     }
 
-    @PutMapping("boxes/{boxId}")
-    public ResponseEntity<?> update(@PathVariable Long boxId, @RequestBody BoxRequestDTO boxRequestDTO) {
-        BoxResponseDTO boxResponseDTO = new BoxResponseDTO(boxService.getById(boxId));
-        boxResponseDTO.setName(boxRequestDTO.getName());
-        boxResponseDTO.setBarcode(boxRequestDTO.getBarcode());
-        boxResponseDTO.setDocuments(boxRequestDTO.getDocuments().stream()
-                .map(DocumentRequestDTO -> new DocumentResponseDTO(boxId, DocumentRequestDTO.getName(), DocumentRequestDTO.getBarcode()))
-                .collect(Collectors.toList()));
-        boxService.update(boxResponseDTO.getId(), boxResponseDTO.getName(), boxResponseDTO.getBarcode(),
-                boxResponseDTO.getDocuments().stream()
-                        .map(DocumentResponseDTO -> new Document(DocumentResponseDTO.getName(), DocumentResponseDTO.getBarcode()))
+    @PutMapping("/boxes/{boxId}")
+    public ResponseEntity<?> updateBox(@PathVariable Long boxId, @RequestBody BoxRequestDTO boxRequestDTO) {
+        boxService.update(boxId, boxRequestDTO.getName(), boxRequestDTO.getBarcode(),
+                boxRequestDTO.getDocuments().stream()
+                        .map(DocumentRequestDTO -> new Document(DocumentRequestDTO.getName(), DocumentRequestDTO.getBarcode()))
                         .collect(Collectors.toList()));
 
         return ResponseEntity.ok("box updated");
