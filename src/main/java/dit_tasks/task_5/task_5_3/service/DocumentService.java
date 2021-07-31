@@ -1,5 +1,7 @@
 package dit_tasks.task_5.task_5_3.service;
 
+import dit_tasks.task_5.task_5_3.controller.dto.BoxResponseDTO;
+import dit_tasks.task_5.task_5_3.entity.Box;
 import dit_tasks.task_5.task_5_3.entity.Document;
 import dit_tasks.task_5.task_5_3.exceptions.DocumentNotFoundException;
 import dit_tasks.task_5.task_5_3.repository.DocumentRepository;
@@ -36,6 +38,20 @@ public class DocumentService {
         Document document = documentRepository.getById(id);
         document.setName(name);
         document.setBarcode(barcode);
+        documentRepository.save(document);
+    }
+
+    public void extract(Long documentId) {
+        Document document = documentRepository.getById(documentId);
+        document.setBox(null);
+        documentRepository.save(document);
+    }
+
+    public void put(Long documentId, Long boxId) {
+        Document document = documentRepository.getById(documentId);
+        Box box = new Box();
+        box.setId(boxId);
+        document.setBox(box);
         documentRepository.save(document);
     }
 }

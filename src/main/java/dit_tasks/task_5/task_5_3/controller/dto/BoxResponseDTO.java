@@ -32,6 +32,9 @@ public class BoxResponseDTO {
         this.documents = documents;
     }
 
+    public BoxResponseDTO() {
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,5 +1,6 @@
 package dit_tasks.task_5.task_5_3.controller.dto;
 
+import dit_tasks.task_5.task_5_3.entity.Box;
 import dit_tasks.task_5.task_5_3.entity.Document;
 
 public class DocumentResponseDTO {
@@ -9,6 +10,8 @@ public class DocumentResponseDTO {
     private String name;
 
     private String barcode;
+
+    private Box box;
 
     public DocumentResponseDTO(Document document) {
         this.id = document.getId();
@@ -44,5 +47,13 @@ public class DocumentResponseDTO {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public Box getBox() {
+        return box;
+    }
+
+    public void setBox(Box box) {
+        this.box = box;
     }
 }

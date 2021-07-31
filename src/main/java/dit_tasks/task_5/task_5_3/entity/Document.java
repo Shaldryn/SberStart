@@ -16,6 +16,13 @@ public class Document {
     @Column(name = "barcode")
     private String barcode;
 
+//    @ManyToOne(cascade = {
+//            CascadeType.PERSIST, CascadeType.MERGE,
+//            CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "box_id")
+    private Box box;
+
     public Document() {
     }
 
@@ -42,6 +49,14 @@ public class Document {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public Box getBox() {
+        return box;
+    }
+
+    public void setBox(Box box) {
+        this.box = box;
     }
 
     @Override

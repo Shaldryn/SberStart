@@ -1,11 +1,11 @@
 package dit_tasks.task_5.task_5_3.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import dit_tasks.task_5.task_5_3.entity.Box;
 import dit_tasks.task_5.task_5_3.entity.Document;
 import dit_tasks.task_5.task_5_3.exceptions.BoxNotFoundException;
 import dit_tasks.task_5.task_5_3.repository.BoxRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,11 +21,12 @@ public class BoxService {
     }
 
     public Long save(String name, String barcode, List<Document> documents) {
-        Box box = new Box(name, barcode, documents);
+        Box box = new Box(name, barcode);
+        box.setDocuments(documents);
         return boxRepository.save(box).getId();
     }
 
-    public List<Box> getAll() {
+    public Collection<Box> getAll() {
         return boxRepository.findAll();
     }
 
@@ -41,12 +42,10 @@ public class BoxService {
         return box.getDocuments();
     }
 
-    public void update(Long id, String name, String barcode, List<Document> documents) {
+    public void update(Long id, String name, String barcode) {
         Box box = boxRepository.getById(id);
         box.setName(name);
         box.setBarcode(barcode);
-        box.getDocuments().clear();
-        box.getDocuments().addAll(documents);
         boxRepository.save(box);
     }
 }
