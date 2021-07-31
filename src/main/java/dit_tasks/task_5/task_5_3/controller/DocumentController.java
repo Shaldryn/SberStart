@@ -22,6 +22,7 @@ public class DocumentController {
     }
 
     @GetMapping("/documents")
+    @ResponseStatus(HttpStatus.OK)
     public List<DocumentResponseDTO> getAllDocuments() {
         return documentService.getAll().stream()
                 .map(DocumentResponseDTO::new)
@@ -29,16 +30,19 @@ public class DocumentController {
     }
 
     @GetMapping("/documents/{documentId}")
+    @ResponseStatus(HttpStatus.OK)
     public DocumentResponseDTO getDocumentById(@PathVariable Long documentId) {
         return new DocumentResponseDTO(documentService.getById(documentId));
     }
 
     @PostMapping("/documents")
+    @ResponseStatus(HttpStatus.CREATED)
     public Long createDocument(@RequestBody DocumentRequestDTO documentRequestDTO) {
         return documentService.save(documentRequestDTO.getName(), documentRequestDTO.getBarcode());
     }
 
     @PutMapping("/documents/{documentId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> updateDocument(@PathVariable Long documentId, @RequestBody DocumentRequestDTO documentRequestDTO) {
         documentService.update(documentId, documentRequestDTO.getName(), documentRequestDTO.getBarcode());
         return ResponseEntity.ok("document updated");

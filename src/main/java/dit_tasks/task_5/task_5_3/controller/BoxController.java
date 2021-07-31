@@ -23,16 +23,19 @@ public class BoxController {
     }
 
     @GetMapping("/boxes")
+    @ResponseStatus(HttpStatus.OK)
     public Collection<BoxResponseDTO> getAllBoxes() {
         return boxService.getAll().stream().map(BoxResponseDTO::new).collect(Collectors.toList());
     }
 
     @GetMapping("/boxes/{boxId}")
+    @ResponseStatus(HttpStatus.OK)
     public BoxResponseDTO getBoxById(@PathVariable Long boxId) {
         return new BoxResponseDTO(boxService.getById(boxId));
     }
 
     @GetMapping("/boxes/{boxId}/documents")
+    @ResponseStatus(HttpStatus.OK)
     public Collection<DocumentResponseDTO> getDocumentsByBoxId(@PathVariable Long boxId) {
         return boxService.getDocumentsByBoxId(boxId).stream()
                 .map(DocumentResponseDTO::new)
@@ -40,6 +43,7 @@ public class BoxController {
     }
 
     @PostMapping("/boxes")
+    @ResponseStatus(HttpStatus.CREATED)
     public Long createBox(@RequestBody BoxRequestDTO boxRequestDTO) {
         return boxService.save(boxRequestDTO.getName(), boxRequestDTO.getBarcode(), boxRequestDTO.getDocuments()
                 .stream()
