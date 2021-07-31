@@ -43,9 +43,8 @@ public class DocumentController {
 
     @PutMapping("/documents/{documentId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> updateDocument(@PathVariable Long documentId, @RequestBody DocumentRequestDTO documentRequestDTO) {
+    public void updateDocument(@PathVariable Long documentId, @RequestBody DocumentRequestDTO documentRequestDTO) {
         documentService.update(documentId, documentRequestDTO.getName(), documentRequestDTO.getBarcode());
-        return ResponseEntity.ok("document updated");
     }
 
     @GetMapping("/documents/{documentId}/extract")

@@ -11,8 +11,6 @@ public class DocumentResponseDTO {
 
     private String barcode;
 
-    private Box box;
-
     public DocumentResponseDTO(Document document) {
         this.id = document.getId();
         this.name = document.getName();
@@ -49,11 +47,4 @@ public class DocumentResponseDTO {
         this.barcode = barcode;
     }
 
-    public Box getBox() {
-        return box;
-    }
-
-    public void setBox(Box box) {
-        this.box = box;
-    }
 }
