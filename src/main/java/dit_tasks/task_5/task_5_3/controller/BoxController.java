@@ -9,6 +9,7 @@ import dit_tasks.task_5.task_5_3.controller.dto.DocumentResponseDTO;
 import dit_tasks.task_5.task_5_3.entity.Document;
 import dit_tasks.task_5.task_5_3.service.BoxService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,13 @@ public class BoxController {
     @GetMapping("/boxes/{boxId}")
     public BoxResponseDTO getBoxById(@PathVariable Long boxId) {
         return new BoxResponseDTO(boxService.getById(boxId));
+    }
+
+    @GetMapping("/boxes/{boxId}/documents")
+    public Collection<DocumentResponseDTO> getDocumentsByBoxId(@PathVariable Long boxId) {
+        return boxService.getDocumentsByBoxId(boxId).stream()
+                .map(DocumentResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/boxes")

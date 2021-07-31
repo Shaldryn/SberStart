@@ -22,7 +22,9 @@ public class DocumentController {
 
     @GetMapping("/documents")
     public List<DocumentResponseDTO> getAllDocuments() {
-        return documentService.getAll().stream().map(DocumentResponseDTO::new).collect(Collectors.toList());
+        return documentService.getAll().stream()
+                .map(DocumentResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/documents/{documentId}")

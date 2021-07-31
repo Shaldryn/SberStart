@@ -7,6 +7,7 @@ import dit_tasks.task_5.task_5_3.entity.Document;
 import dit_tasks.task_5.task_5_3.exceptions.BoxNotFoundException;
 import dit_tasks.task_5.task_5_3.repository.BoxRepository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -31,6 +32,13 @@ public class BoxService {
     public Box getById(Long boxId) {
         return boxRepository.findById(boxId)
                 .orElseThrow(() -> new BoxNotFoundException("Unable to find box with id: " + boxId));
+    }
+
+    public Collection<Document> getDocumentsByBoxId(Long boxId) {
+        Box box = boxRepository.findById(boxId)
+                .orElseThrow(() -> new BoxNotFoundException("Unable to find box with id: " + boxId));
+
+        return box.getDocuments();
     }
 
     public void update(Long id, String name, String barcode, List<Document> documents) {
