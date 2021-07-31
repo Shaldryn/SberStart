@@ -1,6 +1,5 @@
 package dit_tasks.task_5.task_5_3.service;
 
-import dit_tasks.task_5.task_5_3.controller.dto.BoxResponseDTO;
 import dit_tasks.task_5.task_5_3.entity.Box;
 import dit_tasks.task_5.task_5_3.entity.Document;
 import dit_tasks.task_5.task_5_3.exceptions.DocumentNotFoundException;
