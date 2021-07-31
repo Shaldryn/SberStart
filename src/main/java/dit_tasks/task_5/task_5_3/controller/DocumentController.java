@@ -52,7 +52,7 @@ public class DocumentController {
 
     @GetMapping("/documents/{documentId}/boxes/{boxId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void extractDocumentFromBox(@PathVariable Long documentId, @PathVariable Long boxId) {
+    public void putDocumentInBox(@PathVariable Long documentId, @PathVariable Long boxId) {
         documentService.put(documentId, boxId);
     }
 }
