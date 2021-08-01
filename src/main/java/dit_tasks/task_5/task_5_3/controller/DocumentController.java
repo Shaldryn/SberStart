@@ -5,7 +5,6 @@ import dit_tasks.task_5.task_5_3.controller.dto.DocumentResponseDTO;
 import dit_tasks.task_5.task_5_3.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,15 +46,15 @@ public class DocumentController {
         documentService.update(documentId, documentRequestDTO.getName(), documentRequestDTO.getBarcode());
     }
 
-    @GetMapping("/documents/{documentId}/extract")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void extractDocumentFromBox(@PathVariable Long documentId) {
-        documentService.extract(documentId);
-    }
-
-    @GetMapping("/documents/{documentId}/boxes/{boxId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void putDocumentInBox(@PathVariable Long documentId, @PathVariable Long boxId) {
-        documentService.put(documentId, boxId);
-    }
+//    @GetMapping("/documents/{documentId}/extract")
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    public void extractDocumentFromBox(@PathVariable Long documentId) {
+//        documentService.extract(documentId);
+//    }
+//
+//    @GetMapping("/documents/{documentId}/boxes/{boxId}")
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    public void putDocumentInBox(@PathVariable Long documentId, @PathVariable Long boxId) {
+//        documentService.put(documentId, boxId);
+//    }
 }
