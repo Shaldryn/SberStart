@@ -71,7 +71,7 @@ public class App8_9 {
             System.out.flush();
         }
 
-        private void loadItems(List<Person> personList) throws IOException {
+        private void runMenu(List<Person> personList) throws IOException {
 
             while (true) {
 
@@ -105,7 +105,7 @@ public class App8_9 {
             Menu menu = new Menu("Work with persons", true, items, scanner);
             while (true) {
                 try {
-                    menu.loadItems(personList);
+                    menu.runMenu(personList);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
